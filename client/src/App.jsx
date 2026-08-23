@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cover from './pages/Cover';
@@ -14,6 +15,7 @@ import Navbar from './components/Navbar';
 
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Navbar />
       <Routes>
@@ -30,6 +32,7 @@ function App() {
         <Route path="/admin/requests" element={<AdminRequests />} />
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
