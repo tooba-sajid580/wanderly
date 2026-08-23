@@ -1,0 +1,19 @@
+# Dependencies
+client/node_modules/
+server/node_modules/
+
+# Environment variables / secrets
+client/.env
+server/.env
+client/.env.*
+server/.env.*
+
+# Build files
+client/dist/
+server/dist/
+
+# Visual Studio local files
+.vs/
+
+# Logs
+*.log
