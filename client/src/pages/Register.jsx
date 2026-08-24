@@ -8,7 +8,7 @@ function Register() {
   const [pwd, setPwd] = useState("");
   const [err, setErr] = useState("");
   const [name, setName] = useState("");
-  const [role,setRole]= useState("");
+  const [role, setRole] = useState("user");
 
   const navigate = useNavigate();
   const auth = useAuth();
@@ -18,7 +18,12 @@ function Register() {
     setErr("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/register", { email, password: pwd, name,role });
+      const response = await axios.post("http://localhost:5000/api/auth/register", {
+        email,
+        password: pwd,
+        name,
+        role
+      });
       console.log("Success:", response.data);
       auth.login({ user: response.data.user, token: response.data.token });
       navigate("/trips");
@@ -33,12 +38,19 @@ function Register() {
       <form onSubmit={handleSubmit}>
         <label>Name</label>
         <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+
         <label>Email</label>
         <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+
         <label>Password</label>
         <input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} placeholder="Password" />
-        <label>Role</label>
-        <input value={role} onChange={(e) => setRole(e.target.value)} placeholder="Role" />
+
+        <label>I want to</label>
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="user">Browse and join trips</option>
+          <option value="admin">Organize and post trips</option>
+        </select>
+
         {err && <p style={{ color: "red" }}>{err}</p>}
         <button type="submit">Register</button>
       </form>
