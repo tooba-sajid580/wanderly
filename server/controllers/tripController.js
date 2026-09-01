@@ -66,14 +66,14 @@ async function getAllTrips(req, res) {
 async function getTripById(req, res) {
   try {
     const tripId = req.params.tripId;
-    const userId = req.user.id;
+    const userId = req.user?.id;
 
     const trip = await Trip.findById(tripId);
     if (!trip) {
       return res.status(404).json({ message: "Trip not found." });
     }
 
-    const membership = await TripMember.findOne({ tripId, userId });
+    const membership = userId ? await TripMember.findOne({ tripId, userId }) : null;
 
     const responseData = { ...trip.toObject() };
 
@@ -92,19 +92,19 @@ async function getTripById(req, res) {
           const recommendationResult = await getTripRecommendation(trip.weatherCache, trip.category);
           trip.recommendationCache = recommendationResult;
         }
-
         await trip.save();
       }
 
       responseData.weatherInfo = trip.weatherCache;
       responseData.recommendation = trip.recommendationCache;
     }
-
+    
     res.status(200).json(responseData);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 }
+
 
 async function leaveTrip(req, res) {
   try {
