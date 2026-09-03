@@ -77,6 +77,11 @@ async function getTripById(req, res) {
 
     const responseData = { ...trip.toObject() };
 
+    const isOwner = req.user?.id === trip.createdBy.toString();
+    if (!isOwner) {
+      delete responseData.totalPrice;
+    }
+
     if (membership) {
       responseData.members = await TripMember.find({ tripId }).populate("userId", "name");
 

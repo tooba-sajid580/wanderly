@@ -12,7 +12,7 @@ const TripRequestSchema = new mongoose.Schema(
             required: true
         },
         preferredDate:{
-            type: Date
+            type: String
         },
         notes:{
          type: String

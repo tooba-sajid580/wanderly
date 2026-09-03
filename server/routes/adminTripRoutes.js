@@ -8,5 +8,6 @@ router.post('/', authMiddleware, adminMiddleware, adminTrip.createTrip);
 router.put('/:tripId', authMiddleware, adminMiddleware, adminTrip.editTrip);
 router.delete('/:tripId', authMiddleware, adminMiddleware, adminTrip.cancelTrip);
 router.get('/:tripId/members', authMiddleware, adminMiddleware, adminTrip.getTripMembers);
+router.get('/my-posted', authMiddleware, adminMiddleware, adminTrip.getMyPostedTrips);
 
 module.exports = router;
