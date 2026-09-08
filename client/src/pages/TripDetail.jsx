@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import WeatherCard from "../components/WeatherCard";
+import RecommendationBadge from "../components/RecommendationBadge";
 
 function TripDetail() {
   const { tripId } = useParams();
@@ -53,15 +55,8 @@ function TripDetail() {
       <button onClick={handleJoin}>Join trip</button>
       {message && <p>{message}</p>}
 
-      {trip.weatherInfo && trip.weatherInfo.available && (
-        <div>
-          <p>{trip.weatherInfo.temperature}°C, {trip.weatherInfo.condition}</p>
-        </div>
-      )}
-
-      {trip.recommendation && trip.recommendation.text && (
-        <p>{trip.recommendation.text}</p>
-      )}
+      <WeatherCard weatherInfo={trip.weatherInfo} />
+      <RecommendationBadge recommendation={trip.recommendation} />
 
       {trip.members && (
         <div>

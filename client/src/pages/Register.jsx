@@ -26,7 +26,7 @@ function Register() {
       });
       console.log("Success:", response.data);
       auth.login({ user: response.data.user, token: response.data.token });
-      navigate("/trips");
+      navigate("/");
     } catch (error) {
       setErr(error.response?.data?.message || "Registration failed");
     }

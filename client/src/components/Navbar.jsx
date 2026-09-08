@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../styles/Navbar.css";
 
 function Navbar() {
   const { user, logout } = useAuth();
@@ -17,12 +18,14 @@ function Navbar() {
 
       {user && (
         <>
+          <Link to="/">Home</Link>
           <Link to="/trips">Browse Trips</Link>
           <Link to="/my-trips">My Trips</Link>
           <Link to="/request-trip">Request a Trip</Link>
           <button onClick={logout}>Logout</button>
         </>
       )}
+
 
       {user && user.role === "admin" && (
         <>
