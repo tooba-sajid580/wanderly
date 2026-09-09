@@ -17,7 +17,22 @@ function AdminTripForm() {
   const [totalPrice, setTotalPrice] = useState("");
   const [pricePerPerson, setPricePerPerson] = useState("");
   const [imagesInput, setImagesInput] = useState("");
+  const [itinerary, setItinerary] = useState([]);
   const [error, setError] = useState("");
+
+  function addDay() {
+    setItinerary([...itinerary, { day: itinerary.length + 1, place: "", activities: "" }]);
+  }
+
+  function updateDay(index, field, value) {
+    const updated = [...itinerary];
+    updated[index] = { ...updated[index], [field]: value };
+    setItinerary(updated);
+  }
+
+  function removeDay(index) {
+    setItinerary(itinerary.filter((_, i) => i !== index));
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +43,7 @@ function AdminTripForm() {
     try {
       await axios.post(
         "http://localhost:5000/api/admin/trips",
-        { title, destination, startDate, endDate, description, category, capacity, totalPrice, pricePerPerson, images },
+        { title, destination, startDate, endDate, description, category, capacity, totalPrice, pricePerPerson, images, itinerary },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       navigate("/admin");
@@ -70,6 +85,30 @@ function AdminTripForm() {
 
         <label>Image URLs (comma-separated, up to 6)</label>
         <input value={imagesInput} onChange={(e) => setImagesInput(e.target.value)} placeholder="url1.jpg, url2.jpg" />
+
+        <label>Itinerary</label>
+        {itinerary.map((entry, index) => (
+          <div key={index} className="itinerary-row">
+            <input
+              type="number"
+              placeholder="Day"
+              value={entry.day}
+              onChange={(e) => updateDay(index, "day", e.target.value)}
+            />
+            <input
+              placeholder="Place"
+              value={entry.place}
+              onChange={(e) => updateDay(index, "place", e.target.value)}
+            />
+            <input
+              placeholder="Activities (e.g. drive to Hunza, lunch at local dhaba)"
+              value={entry.activities}
+              onChange={(e) => updateDay(index, "activities", e.target.value)}
+            />
+            <button type="button" onClick={() => removeDay(index)}>Remove</button>
+          </div>
+        ))}
+        <button type="button" onClick={addDay}>+ Add day</button>
 
         {error && <p>{error}</p>}
         <button type="submit">Save trip</button>

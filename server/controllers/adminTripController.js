@@ -5,10 +5,10 @@ const TripMember = require('../models/TripMembership');
 async function createTrip(req, res) {
   try {
     const { title, destination, lat, lng, startDate,
-        endDate, description, category, capacity, totalPrice, pricePerPerson, images } = req.body
+        endDate, description, category, capacity, totalPrice, pricePerPerson, images, itinerary } = req.body
 
     const newTrip = await Trip.create({title, destination, lat, lng, startDate,
-        endDate, description, category, capacity, totalPrice, pricePerPerson, images, createdBy: req.user.id });
+        endDate, description, category, capacity, totalPrice, pricePerPerson, images, itinerary, createdBy: req.user.id });
     res.status(201).json({ trip: newTrip });
 
   } catch (error) {
@@ -75,4 +75,4 @@ async function getMyPostedTrips(req, res) {
   }
 }
 
-module.exports = { createTrip, editTrip, cancelTrip, getTripMembers ,getMyPostedTrips};
+module.exports = { createTrip, editTrip, cancelTrip, getTripMembers, getMyPostedTrips };

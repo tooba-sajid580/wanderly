@@ -66,6 +66,14 @@ function TripDetail() {
           ))}
         </div>
       )}
+      {trip.itinerary && trip.itinerary.length > 0 && (
+        <div>
+          <h3>Itinerary</h3>
+          {trip.itinerary.map((day, index) => (
+            <p key={index}>Day {day.day} — {day.place}: {day.activities}</p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -22,12 +22,17 @@ function Cover() {
   return (
     <div>
       <section className="hero">
-        <span className="eyebrow">Travel together</span>
-        <h1>Find your next shared adventure.</h1>
-        <p>Discover trips, meet fellow travelers, and make memories that last beyond the journey.</p>
-        <div className="hero-buttons">
-          <Link to="/trips" className="btn-primary">Browse trips</Link>
-          <Link to="/admin/create-trip" className="btn-secondary">Create a trip</Link>
+        <div className="hero-text">
+          <span className="eyebrow">Travel together</span>
+          <h1>Find your next shared adventure.</h1>
+          <p>Discover trips, meet fellow travelers, and make memories that last beyond the journey.</p>
+          <div className="hero-buttons">
+            <Link to="/trips" className="btn-primary">Browse trips</Link>
+            <Link to="/admin/create-trip" className="btn-secondary">Create a trip</Link>
+          </div>
+        </div>
+        <div className="hero-image">
+          <img src="/hero-travel.jpg" alt="Travelers on a trip" />
         </div>
       </section>
 
@@ -35,14 +40,24 @@ function Cover() {
         <h2>Popular journeys</h2>
         <p className="section-subtext">Fresh picks from the Wanderly community</p>
         <div className="popular-grid">
-          {popularTrips.map((trip) => (
-            <Link to={`/trips/${trip._id}`} key={trip._id} className="popular-card">
-              <div className="popular-image">
-                {trip.images?.[0] ? <img src={trip.images[0]} alt={trip.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : "Travel photo"}
+          {popularTrips.map((trip) => {
+            const days = trip.startDate && trip.endDate
+              ? Math.round((new Date(trip.endDate) - new Date(trip.startDate)) / (1000 * 60 * 60 * 24)) + 1
+              : "?";
+            return (
+              <div key={trip._id} className="popular-card">
+                <div className="popular-image">
+                  {trip.images?.[0] ? <img src={trip.images[0]} alt={trip.title} /> : "Travel photo"}
+                </div>
+                <div className="popular-card-body">
+                  <h3>{trip.title}</h3>
+                  <p className="popular-meta">{days} days · {trip.capacity} travelers</p>
+                  <p className="popular-price">${trip.pricePerPerson}</p>
+                  <Link to={`/trips/${trip._id}`} className="popular-btn">View trip</Link>
+                </div>
               </div>
-              <p>{trip.title}</p>
-            </Link>
-          ))}
+            );
+          })}
         </div>
       </section>
     </div>
