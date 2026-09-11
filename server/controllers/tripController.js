@@ -13,7 +13,7 @@ const joinTrip = async (req, res) => {
         if(!trip){
             return res.status(404).json({message: "Trip not found."});
         }
-        const alreadyJoined = await TripMember.findOne(tripId,userId);
+        const alreadyJoined = await TripMember.findOne({tripId,userId});
         if(alreadyJoined){
             return res.status(400).json({message:"Already Joined this trip."});
         }

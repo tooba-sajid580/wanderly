@@ -1,0 +1,124 @@
+.trip-cover {
+  height: 320px;
+  border-radius: 12px;
+  background-color: var(--color-mint);
+  color: var(--color-pistachio-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  overflow: hidden;
+  margin: 32px 0;
+}
+
+.trip-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.trip-detail-body {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.trip-main {
+  flex: 1.4;
+}
+
+.trip-main h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.trip-main section {
+  margin-bottom: 32px;
+}
+
+.member-pill {
+  display: inline-block;
+  background-color: var(--color-bg);
+  border: 0.5px solid var(--color-border);
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 13px;
+  margin: 0 6px 6px 0;
+}
+
+.trip-sidebar {
+  flex: 1;
+  position: sticky;
+  top: 90px;
+}
+
+.featured-badge {
+  display: inline-block;
+  background-color: var(--color-mint);
+  color: var(--color-pistachio-dark);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.trip-sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.trip-sidebar-meta {
+  color: var(--color-muted);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.trip-price {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-button-green);
+  margin-bottom: 20px;
+}
+
+.join-box {
+  background-color: var(--color-mint);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.join-box h4 {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.spots-label {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.spots-value {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.join-btn {
+  width: 100%;
+  background-color: var(--color-button-green);
+  color: var(--color-white);
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.join-message {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--color-pistachio-dark);
+}

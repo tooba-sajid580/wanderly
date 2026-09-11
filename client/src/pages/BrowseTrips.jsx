@@ -7,6 +7,7 @@ function BrowseTrips() {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     async function fetchTrips() {
@@ -25,34 +26,45 @@ function BrowseTrips() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
+  const filteredTrips = trips.filter((trip) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      trip.destination?.toLowerCase().includes(term) ||
+      trip.title?.toLowerCase().includes(term)
+    );
+  });
+
   return (
-    
-  <div className="container">
-    <h2 className="page-heading">Browse trips</h2>
-    <p className="page-subtext">Find an adventure that fits your plans.</p>
+    <div className="container">
+      <h2 className="page-heading">Browse trips</h2>
+      <p className="page-subtext">Find an adventure that fits your plans.</p>
 
-    <div className="search-bar">
-      <div className="search-field">
-        <label>Destination</label>
-        <input placeholder="Where do you want to go?" />
+      <div className="search-bar">
+        <span className="search-icon">🔍</span>
+        <input
+          className="search-input"
+          placeholder='Search by destination — try "Hunza"'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button className="search-btn">Search</button>
       </div>
-      <div className="search-field">
-        <label>Date</label>
-        <input placeholder="Any dates" />
-      </div>
-      <div className="search-field">
-        <label>Travelers</label>
-        <input placeholder="2 travelers" />
-      </div>
-      <button className="search-btn">Search</button>
-    </div>
 
-    <div className="grid"></div>
-      <div className="grid">
-        {trips.map((trip) => (
-          <TripCard key={trip._id} trip={trip} />
-        ))}
-      </div>
+      <p className="results-count">
+        {searchTerm
+          ? `Showing ${filteredTrips.length} result${filteredTrips.length !== 1 ? "s" : ""} for "${searchTerm}"`
+          : `Showing ${trips.length} of ${trips.length} trips`}
+      </p>
+
+      {filteredTrips.length === 0 ? (
+        <p className="no-results">No trips found. Try a different destination.</p>
+      ) : (
+        <div className="grid">
+          {filteredTrips.map((trip) => (
+            <TripCard key={trip._id} trip={trip} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

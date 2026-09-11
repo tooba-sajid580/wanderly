@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import WeatherCard from "../components/WeatherCard";
 import RecommendationBadge from "../components/RecommendationBadge";
+import "../styles/TripDetail.css";
 
 function TripDetail() {
   const { tripId } = useParams();
@@ -39,41 +40,65 @@ function TripDetail() {
     }
   }
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-  if (!trip) {
-    return <p>Trip not found</p>;
-  }
+  if (loading) return <p>Loading...</p>;
+  if (!trip) return <p>Trip not found</p>;
+
+  const days = trip.startDate && trip.endDate
+    ? Math.round((new Date(trip.endDate) - new Date(trip.startDate)) / (1000 * 60 * 60 * 24)) + 1
+    : "?";
 
   return (
-    <div>
-      <h2>{trip.title}</h2>
-      <p>{trip.destination}</p>
-      <p>{trip.description}</p>
-      <p>Capacity: {trip.capacity}</p>
-      <button onClick={handleJoin}>Join trip</button>
-      {message && <p>{message}</p>}
+    <div className="container">
+      <div className="trip-cover">
+        {trip.images?.[0] ? <img src={trip.images[0]} alt={trip.title} /> : "Trip cover image"}
+      </div>
 
-      <WeatherCard weatherInfo={trip.weatherInfo} />
-      <RecommendationBadge recommendation={trip.recommendation} />
+      <div className="trip-detail-body">
+        <div className="trip-main">
+          <section>
+            <h3>About this trip</h3>
+            <p>{trip.description}</p>
+          </section>
 
-      {trip.members && (
-        <div>
-          <h3>Who's going</h3>
-          {trip.members.map((member) => (
-            <span key={member._id}>{member.userId?.name}</span>
-          ))}
+          {trip.itinerary?.length > 0 && (
+            <section>
+              <h3>Itinerary</h3>
+              {trip.itinerary.map((day, index) => (
+                <p key={index}>Day {day.day} — {day.place}: {day.activities}</p>
+              ))}
+            </section>
+          )}
+
+          {trip.members && (
+            <section>
+              <h3>Who's going</h3>
+              {trip.members.map((member) => (
+                <span key={member._id} className="member-pill">{member.userId?.name}</span>
+              ))}
+            </section>
+          )}
+
+          <section>
+            <WeatherCard weatherInfo={trip.weatherInfo} />
+            <RecommendationBadge recommendation={trip.recommendation} />
+          </section>
         </div>
-      )}
-      {trip.itinerary && trip.itinerary.length > 0 && (
-        <div>
-          <h3>Itinerary</h3>
-          {trip.itinerary.map((day, index) => (
-            <p key={index}>Day {day.day} — {day.place}: {day.activities}</p>
-          ))}
+
+        <div className="trip-sidebar">
+          <span className="featured-badge">Featured</span>
+          <h2>{trip.title}</h2>
+          {trip.destination && <p className="trip-sidebar-meta">{days} days · {trip.capacity} travelers · {trip.destination}</p>}
+          <p className="trip-price">${trip.pricePerPerson?.toLocaleString()}</p>
+
+          <div className="join-box">
+            <h4>Join this trip</h4>
+            <p className="spots-label">Spots available</p>
+            <p className="spots-value">{trip.spotsRemaining} of {trip.capacity} remaining</p>
+            <button onClick={handleJoin} className="join-btn">Join trip</button>
+            {message && <p className="join-message">{message}</p>}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

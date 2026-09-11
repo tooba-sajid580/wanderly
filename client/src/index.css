@@ -50,8 +50,9 @@ a {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
 }
 
 form {
@@ -83,4 +84,30 @@ textarea {
 .error-text {
   color: #B3261E;
   font-size: 13px;
+}
+
+button {
+  transition: opacity 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.card-btn:hover,
+.popular-btn:hover,
+.search-btn:hover,
+.join-btn:hover,
+button[type="submit"]:hover {
+  opacity: 0.88;
+}
+
+.nav-logout:hover {
+  background-color: var(--color-bg);
+  opacity: 1;
 }
