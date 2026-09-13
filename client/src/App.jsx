@@ -28,6 +28,7 @@ function App() {
         <Route path="/request-trip" element={<RequestTrip />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/create-trip" element={<AdminTripForm />} />
+        <Route path="/admin/edit-trip/:tripId" element={<AdminTripForm />} />
         <Route path="/admin/trips/:tripId/members" element={<AdminTripMembers />} />
         <Route path="/admin/requests" element={<AdminRequests />} />
       </Routes>

@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
 function AdminTripForm() {
   const { token } = useAuth();
   const navigate = useNavigate();
+  const { tripId } = useParams();
+  const isEditMode = Boolean(tripId);
 
   const [title, setTitle] = useState("");
   const [destination, setDestination] = useState("");
@@ -19,6 +21,35 @@ function AdminTripForm() {
   const [imagesInput, setImagesInput] = useState("");
   const [itinerary, setItinerary] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(isEditMode);
+
+  useEffect(() => {
+    if (!isEditMode) return;
+
+    async function fetchTrip() {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/trips/${tripId}`);
+        const trip = response.data;
+
+        setTitle(trip.title || "");
+        setDestination(trip.destination || "");
+        setStartDate(trip.startDate ? trip.startDate.slice(0, 10) : "");
+        setEndDate(trip.endDate ? trip.endDate.slice(0, 10) : "");
+        setDescription(trip.description || "");
+        setCategory(trip.category || "");
+        setCapacity(trip.capacity || "");
+        setTotalPrice(trip.totalPrice || "");
+        setPricePerPerson(trip.pricePerPerson || "");
+        setImagesInput((trip.images || []).join(", "));
+        setItinerary(trip.itinerary || []);
+      } catch (err) {
+        setError("Could not load trip for editing");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTrip();
+  }, [tripId, isEditMode]);
 
   function addDay() {
     setItinerary([...itinerary, { day: itinerary.length + 1, place: "", activities: "" }]);
@@ -39,22 +70,33 @@ function AdminTripForm() {
     setError("");
 
     const images = imagesInput.split(",").map((url) => url.trim()).filter((url) => url !== "");
+    const tripData = { title, destination, startDate, endDate, description, category, capacity, totalPrice, pricePerPerson, images, itinerary };
 
     try {
-      await axios.post(
-        "http://localhost:5000/api/admin/trips",
-        { title, destination, startDate, endDate, description, category, capacity, totalPrice, pricePerPerson, images, itinerary },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      if (isEditMode) {
+        await axios.put(
+          `http://localhost:5000/api/admin/trips/${tripId}`,
+          tripData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } else {
+        await axios.post(
+          "http://localhost:5000/api/admin/trips",
+          tripData,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      }
       navigate("/admin");
     } catch (err) {
-      setError(err.response?.data?.message || "Could not create trip");
+      setError(err.response?.data?.message || "Could not save trip");
     }
   };
 
+  if (loading) return <p>Loading trip...</p>;
+
   return (
     <div>
-      <h2>Create trip</h2>
+      <h2>{isEditMode ? "Edit trip" : "Create trip"}</h2>
       <form onSubmit={handleSubmit}>
         <label>Title</label>
         <input value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -111,10 +153,10 @@ function AdminTripForm() {
         <button type="button" onClick={addDay}>+ Add day</button>
 
         {error && <p>{error}</p>}
-        <button type="submit">Save trip</button>
+        <button type="submit">{isEditMode ? "Save changes" : "Save trip"}</button>
       </form>
     </div>
   );
-}
+};
 
 export default AdminTripForm;

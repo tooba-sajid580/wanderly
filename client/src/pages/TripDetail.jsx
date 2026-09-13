@@ -50,7 +50,13 @@ function TripDetail() {
   return (
     <div className="container">
       <div className="trip-cover">
-        {trip.images?.[0] ? <img src={trip.images[0]} alt={trip.title} /> : "Trip cover image"}
+        <div className="trip-cover-frame">
+          {trip.images?.[0] ? <img src={trip.images[0]} alt={trip.title} /> : null}
+          <div className="trip-cover-overlay">
+            <h1>{trip.title}</h1>
+            <p>{trip.category}{trip.destination && ` · ${trip.destination}`}</p>
+          </div>
+        </div>
       </div>
 
       <div className="trip-detail-body">
@@ -87,6 +93,13 @@ function TripDetail() {
         <div className="trip-sidebar">
           <span className="featured-badge">Featured</span>
           <h2>{trip.title}</h2>
+
+          {trip.startDate && trip.endDate && (
+            <p className="trip-dates">
+              {new Date(trip.startDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })} – {new Date(trip.endDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+            </p>
+          )}
+
           {trip.destination && <p className="trip-sidebar-meta">{days} days · {trip.capacity} travelers · {trip.destination}</p>}
           <p className="trip-price">${trip.pricePerPerson?.toLocaleString()}</p>
 

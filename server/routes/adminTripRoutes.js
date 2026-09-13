@@ -9,5 +9,6 @@ router.put('/:tripId', authMiddleware, adminMiddleware, adminTrip.editTrip);
 router.delete('/:tripId', authMiddleware, adminMiddleware, adminTrip.cancelTrip);
 router.get('/:tripId/members', authMiddleware, adminMiddleware, adminTrip.getTripMembers);
 router.get('/my-posted', authMiddleware, adminMiddleware, adminTrip.getMyPostedTrips);
+router.delete('/:tripId/permanent', authMiddleware, adminMiddleware, adminTrip.deleteTrip);
 
 module.exports = router;

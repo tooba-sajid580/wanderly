@@ -14,10 +14,16 @@ const TripSchema = new mongoose.Schema(
             type: [Number], 
             required: true
         },
-        date:{
+        startDate:{
             type: Date,
             required: false,
         },
+
+        endDate:{
+            type:Date,
+            required : false,
+        },
+
         category:{
             type: String,
             required: true,

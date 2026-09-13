@@ -62,6 +62,7 @@ async function getAllTrips(req, res) {
   }
 };
 
+   
 
 async function getTripById(req, res) {
   try {
@@ -81,6 +82,9 @@ async function getTripById(req, res) {
     if (!isOwner) {
       delete responseData.totalPrice;
     }
+
+    const confirmedCount = await TripMember.countDocuments({ tripId, status: "confirmed" });
+    responseData.spotsRemaining = trip.capacity - confirmedCount;
 
     if (membership) {
       responseData.members = await TripMember.find({ tripId }).populate("userId", "name");

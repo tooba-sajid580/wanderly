@@ -75,4 +75,25 @@ async function getMyPostedTrips(req, res) {
   }
 }
 
-module.exports = { createTrip, editTrip, cancelTrip, getTripMembers, getMyPostedTrips };
+async function deleteTrip(req, res) {
+  try {
+    const tripId = req.params.tripId;
+    const findTrip = await Trip.findById(tripId);
+    if (!findTrip) {
+      return res.status(404).json({ message: "Trip not found." });
+    }
+
+    if (findTrip.createdBy.toString() !== req.user.id) {
+      return res.status(403).json({ message: "You don't have access to this trip." });
+    }
+
+    await TripMember.deleteMany({ tripId });
+    await Trip.findByIdAndDelete(tripId);
+
+    res.status(200).json({ message: "Trip deleted permanently." });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong", error: error.message });
+  }
+}
+
+module.exports = { createTrip, editTrip, cancelTrip, getTripMembers, getMyPostedTrips, deleteTrip };

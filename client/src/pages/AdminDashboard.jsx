@@ -25,6 +25,20 @@ function AdminDashboard() {
     fetchMyPostedTrips();
   }, []);
 
+  async function handleDelete(tripId) {
+    const confirmed = window.confirm("Are you sure you want to delete this trip? This cannot be undone.");
+    if (!confirmed) return;
+
+    try {
+      await axios.delete(`http://localhost:5000/api/admin/trips/${tripId}/permanent`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setTrips(trips.filter((trip) => trip._id !== tripId));
+    } catch (err) {
+      alert(err.response?.data?.message || "Could not delete trip");
+    }
+  }
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -45,6 +59,8 @@ function AdminDashboard() {
             <h3>{trip.title}</h3>
             <p>{trip.capacity} spots · {trip.status}</p>
             <Link to={`/admin/trips/${trip._id}/members`}>View members</Link>
+            <Link to={`/admin/edit-trip/${trip._id}`}>Edit</Link>
+            <button onClick={() => handleDelete(trip._id)}>Delete</button>
           </div>
         ))
       )}

@@ -1,0 +1,84 @@
+.page-heading {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 32px 0 6px;
+}
+
+.page-subtext {
+  color: var(--color-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.mytrip-card-wrapper {
+  position: relative;
+}
+
+.status-pill {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  z-index: 1;
+}
+
+.status-confirmed {
+  background-color: var(--color-mint);
+  color: var(--color-pistachio-dark);
+}
+
+.status-waitlisted {
+  background-color: #FCEFD9;
+  color: var(--color-amber);
+}
+
+.weather-summary {
+  background-color: var(--color-mint);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 40px;
+}
+
+.weather-summary h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.weather-summary .subtext {
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-bottom: 16px;
+}
+
+.weather-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.weather-summary-item {
+  background: var(--color-white);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.weather-place {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.weather-summary-item .temp {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-pistachio-dark);
+  margin: 2px 0;
+}
+
+.weather-summary-item .condition {
+  font-size: 12px;
+  color: var(--color-muted);
+}
