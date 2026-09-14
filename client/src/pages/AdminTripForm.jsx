@@ -94,7 +94,7 @@ function AdminTripForm() {
 
   if (loading) return <p>Loading trip...</p>;
 
-  return (
+  /**return (
     <div>
       <h2>{isEditMode ? "Edit trip" : "Create trip"}</h2>
       <form onSubmit={handleSubmit}>
@@ -157,6 +157,81 @@ function AdminTripForm() {
       </form>
     </div>
   );
+};***/
+
+// AdminTripForm.jsx — return statement only, keep all your existing state/logic above unchanged
+return (
+  <div className="container">
+    <h2 className="page-heading">{isEditMode ? "Edit trip" : "Create a trip"}</h2>
+    <p className="page-subtext">Share a new adventure with the Wanderly community.</p>
+
+    <form onSubmit={handleSubmit} className="trip-form-card">
+      <div className="form-grid">
+        <div>
+          <label>Trip title</label>
+          <input placeholder="e.g. Hunza Valley Adventure" value={title} onChange={(e) => setTitle(e.target.value)} />
+        </div>
+        <div>
+          <label>Destination</label>
+          <input value={destination} onChange={(e) => setDestination(e.target.value)} />
+        </div>
+
+        <div>
+          <label>Start date</label>
+          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        </div>
+        <div>
+          <label>End date</label>
+          <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+        </div>
+
+        <div>
+          <label>Category</label>
+          <input value={category} onChange={(e) => setCategory(e.target.value)} />
+        </div>
+        <div>
+          <label>Capacity</label>
+          <input type="number" value={capacity} onChange={(e) => setCapacity(e.target.value)} />
+        </div>
+
+        <div>
+          <label>Price per person</label>
+          <input type="number" value={pricePerPerson} onChange={(e) => setPricePerPerson(e.target.value)} />
+        </div>
+        <div>
+          <label>Total price</label>
+          <input type="number" value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} />
+        </div>
+
+        <div className="form-full">
+          <label>Image URLs (comma-separated, up to 6)</label>
+          <input value={imagesInput} onChange={(e) => setImagesInput(e.target.value)} placeholder="https://..." />
+        </div>
+
+        <div className="form-full">
+          <label>Description</label>
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Tell travelers what makes this trip special..."></textarea>
+        </div>
+
+        <div className="form-full">
+          <label>Itinerary</label>
+          {itinerary.map((entry, index) => (
+            <div key={index} className="itinerary-row">
+              <input type="number" placeholder="Day" value={entry.day} onChange={(e) => updateDay(index, "day", e.target.value)} />
+              <input placeholder="Place" value={entry.place} onChange={(e) => updateDay(index, "place", e.target.value)} />
+              <input placeholder="Activities" value={entry.activities} onChange={(e) => updateDay(index, "activities", e.target.value)} />
+              <button type="button" onClick={() => removeDay(index)}>Remove</button>
+            </div>
+          ))}
+          <button type="button" onClick={addDay} className="btn-outline">+ Add day</button>
+        </div>
+      </div>
+
+      {error && <p className="error-text">{error}</p>}
+      <button type="submit" className="create-trip-btn">{isEditMode ? "Save changes" : "Create trip"}</button>
+    </form>
+  </div>
+);
 };
 
 export default AdminTripForm;

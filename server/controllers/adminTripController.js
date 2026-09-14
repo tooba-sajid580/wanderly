@@ -69,7 +69,15 @@ async function getTripMembers(req, res) {
 async function getMyPostedTrips(req, res) {
   try {
     const trips = await Trip.find({ createdBy: req.user.id });
-    res.status(200).json({ trips });
+
+    const tripsWithCounts = await Promise.all(
+      trips.map(async (trip) => {
+        const joinedCount = await TripMember.countDocuments({ tripId: trip._id, status: "confirmed" });
+        return { ...trip.toObject(), joinedCount };
+      })
+    );
+
+    res.status(200).json({ trips: tripsWithCounts });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong", error: error.message });
   }
