@@ -4,6 +4,8 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import WeatherCard from "../components/WeatherCard";
 import RecommendationBadge from "../components/RecommendationBadge";
+import MemberList from "../components/MemberList";
+import PriceTag from "../components/PriceTag";
 import "../styles/TripDetail.css";
 
 function TripDetail() {
@@ -78,9 +80,7 @@ function TripDetail() {
           {trip.members && (
             <section>
               <h3>Who's going</h3>
-              {trip.members.map((member) => (
-                <span key={member._id} className="member-pill">{member.userId?.name}</span>
-              ))}
+              <MemberList members={trip.members} />
             </section>
           )}
 
@@ -101,7 +101,7 @@ function TripDetail() {
           )}
 
           {trip.destination && <p className="trip-sidebar-meta">{days} days · {trip.capacity} travelers · {trip.destination}</p>}
-          <p className="trip-price">${trip.pricePerPerson?.toLocaleString()}</p>
+          <PriceTag price={trip.pricePerPerson} />
 
           <div className="join-box">
             <h4>Join this trip</h4>

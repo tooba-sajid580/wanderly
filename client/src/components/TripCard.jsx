@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../styles/TripCard.css";
+import PriceTag from "./PriceTag";
 
 function TripCard({ trip }) {
   const days = trip.startDate && trip.endDate
@@ -14,7 +15,7 @@ function TripCard({ trip }) {
       <div className="card-body">
         <h3>{trip.title}</h3>
         <p className="card-meta">{days} days · {trip.capacity} travelers</p>
-        <p className="card-price">${trip.pricePerPerson}</p>
+        <PriceTag price={trip.pricePerPerson} />
         <Link to={`/trips/${trip._id}`} className="card-btn">View trip</Link>
       </div>
     </div>

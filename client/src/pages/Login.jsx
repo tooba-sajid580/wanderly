@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import "../styles/Auth.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -16,26 +17,36 @@ function Login() {
     setErr("");
     try {
       const response = await axios.post("http://localhost:5000/api/auth/login", { email, password: pwd });
-      console.log("Success:", response.data);
       auth.login({ user: response.data.user, token: response.data.token });
       navigate("/");
     } catch (error) {
-      setErr(error.response?.data?.message || "cannot login");
+      setErr(error.response?.data?.message || "Could not log in");
     }
   };
 
   return (
-    <div>
-      <h2>Log in</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-        <label>Password</label>
-        <input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} placeholder="Password" />
-        {err && <p style={{ color: "red" }}>{err}</p>}
-        <button type="submit">Log in</button>
-      </form>
-      <p>New here? <a href="/register">Create an account</a></p>
+    <div className="auth-page">
+      <div className="auth-logo">Wanderly</div>
+      <div className="auth-card">
+        <h2>Welcome back</h2>
+        <p className="auth-subtext">Log in to continue your journey.</p>
+
+        <form onSubmit={handleSubmit}>
+          <label>Email address</label>
+          <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
+
+          <label>Password</label>
+          <input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} placeholder="••••••••" />
+
+          {err && <p className="error-text">{err}</p>}
+
+          <button type="submit" className="create-trip-btn auth-btn-primary">Log in</button>
+        </form>
+
+        <div className="auth-divider">OR</div>
+
+        <Link to="/register" className="auth-btn-secondary">Create an account</Link>
+      </div>
     </div>
   );
 }

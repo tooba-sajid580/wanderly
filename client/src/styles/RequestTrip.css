@@ -1,0 +1,23 @@
+.request-form-card {
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 24px;
+  max-width: 560px;
+}
+
+.request-form-card h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.request-form-subtext {
+  color: var(--color-muted);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.request-form-card input,
+.request-form-card textarea {
+  width: 100%;
+}

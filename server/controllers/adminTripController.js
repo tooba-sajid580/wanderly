@@ -58,9 +58,22 @@ async function cancelTrip(req, res) {
 
 async function getTripMembers(req, res) {
   try {
-    const tripId=req.params.tripId;
-    const members=await TripMember.find({tripId}).populate("userId","name email");
-    res.status(200).json({ members });
+    const tripId = req.params.tripId;
+    const trip = await Trip.findById(tripId);
+    if (!trip) {
+      return res.status(404).json({ message: "Trip not found." });
+    }
+
+    const members = await TripMember.find({ tripId }).populate("userId", "name email");
+    const joinedCount = members.filter((m) => m.status === "confirmed").length;
+    const spotsRemaining = trip.capacity - joinedCount;
+
+    res.status(200).json({
+      trip: { title: trip.title, capacity: trip.capacity },
+      joinedCount,
+      spotsRemaining,
+      members
+    });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong", error: error.message });
   }

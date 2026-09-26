@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cover from './pages/Cover';
@@ -13,15 +13,16 @@ import AdminTripMembers from './pages/AdminTripMembers';
 import AdminRequests from './pages/AdminRequests';
 import Navbar from './components/Navbar';
 
-function App() {
+function AppRoutes() {
+  const { user } = useAuth();
+
   return (
-    <AuthProvider>
-    <BrowserRouter>
+    <>
       <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Cover />} />
+        <Route path="/" element={user ? <Cover /> : <Login />} />
         <Route path="/trips" element={<BrowseTrips />} />
         <Route path="/trips/:tripId" element={<TripDetail />} />
         <Route path="/my-trips" element={<MyTrips />} />
@@ -32,7 +33,16 @@ function App() {
         <Route path="/admin/trips/:tripId/members" element={<AdminTripMembers />} />
         <Route path="/admin/requests" element={<AdminRequests />} />
       </Routes>
-    </BrowserRouter>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </AuthProvider>
   );
 }

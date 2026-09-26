@@ -111,3 +111,14 @@ button[type="submit"]:hover {
   background-color: var(--color-bg);
   opacity: 1;
 }
+
+.price-tag {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.price-tag-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-muted);
+}

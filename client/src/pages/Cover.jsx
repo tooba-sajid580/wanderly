@@ -5,6 +5,14 @@ import "../styles/Cover.css";
 
 function Cover() {
   const [popularTrips, setPopularTrips] = useState([]);
+  const heroImages = [
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200",
+  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200",
+  "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1200",
+];
+const FIVE_HOURS_MS = 5 * 60 * 60 * 1000;
+const slot = Math.floor(Date.now() / FIVE_HOURS_MS);
+const currentHeroImage = heroImages[slot % heroImages.length];
 
   useEffect(() => {
     async function fetchPopular() {
@@ -32,7 +40,7 @@ function Cover() {
           </div>
         </div>
         <div className="hero-image">
-          <img src="/hero-travel.jpg" alt="Travelers on a trip" />
+         <img src={currentHeroImage} alt="Travelers on a trip" />
         </div>
       </section>
 

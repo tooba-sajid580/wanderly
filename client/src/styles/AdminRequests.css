@@ -1,0 +1,60 @@
+.requests-table-card {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.requests-table-header,
+.requests-table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 0.8fr 1.4fr;
+  padding: 14px 20px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.requests-table-header {
+  font-size: 12px;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.requests-table-row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.requests-table-row:last-child {
+  border-bottom: none;
+}
+
+.status-pending {
+  color: #B08A3E;
+  font-weight: 500;
+}
+
+.request-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-approve {
+  background-color: var(--color-button-green);
+  color: var(--color-white);
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-reject {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
