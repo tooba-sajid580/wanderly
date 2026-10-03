@@ -19,12 +19,11 @@ async function createTrip(req, res) {
 async function editTrip(req, res) {
   try {
     const tripId=req.params.tripId;
-
     const findTrip = await Trip.findById(tripId);
     if(!findTrip){
         return res.status(404).json({ message: "Trip not found." });
     }
-    if(findTrip.createdBy.toString() !== req.user.id){
+    if(!findTrip.createdBy.equals(req.user.id)){
         return res.status(403).json({ message: "You didn't create this trip." }); 
     }
     const updates = req.body;
@@ -32,7 +31,7 @@ async function editTrip(req, res) {
     await findTrip.save();
     res.status(200).json({findTrip});
 
-  } catch (error) {
+  }catch (error) {
     res.status(500).json({ message: "Something went wrong", error: error.message });
   }
 }

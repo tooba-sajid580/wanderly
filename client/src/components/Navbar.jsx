@@ -1,16 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/Navbar.css";
 
 function Navbar() {
   const { user, logout } = useAuth();
+  const location = useLocation();
+  const onAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <nav className="navbar">
       <Link to="/" className="logo">Wanderly</Link>
 
       <div className="nav-links">
-        {!user && (
+        {!user && !onAuthPage && (
           <>
             <Link to="/login">Log in</Link>
             <Link to="/register" className="nav-register">Register</Link>

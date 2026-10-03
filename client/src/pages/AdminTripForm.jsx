@@ -30,7 +30,9 @@ function AdminTripForm() {
     if (!isEditMode) return;
     async function fetchTrip() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/trips/${tripId}`);
+        const response = await axios.get(`http://localhost:5000/api/trips/${tripId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
         const trip = response.data;
         setTitle(trip.title || "");
         setDestination(trip.destination || "");
