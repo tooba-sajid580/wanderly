@@ -58,3 +58,25 @@
   font-size: 13px;
   cursor: pointer;
 }
+
+/* Added for the claim feature */
+.status-approved {
+  color: var(--color-button-green);
+  font-weight: 500;
+}
+
+.status-rejected {
+  color: #A94442;
+  font-weight: 500;
+}
+
+.handled-by {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.btn-approve:disabled,
+.btn-reject:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,10 +1,26 @@
-// components/RecommendationBadge.jsx
 function RecommendationBadge({ recommendation }) {
-  if (!recommendation || !recommendation.text) {
+  const items = recommendation?.items || [];
+  const tip = recommendation?.text;
+
+  if (items.length === 0 && !tip) {
     return null;
   }
 
-  return <p className="recommendation-badge">{recommendation.text}</p>;
+  return (
+    <div className="recommendation-badge">
+      {items.length > 0 && (
+        <>
+          <p className="recommendation-title">What to pack for this weather</p>
+          <ul className="recommendation-list">
+            {items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </>
+      )}
+      {tip && <p className="recommendation-tip">{tip}</p>}
+    </div>
+  );
 }
 
 export default RecommendationBadge;

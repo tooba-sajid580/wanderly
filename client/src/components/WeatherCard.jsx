@@ -1,12 +1,15 @@
-
 function WeatherCard({ weatherInfo }) {
   if (!weatherInfo || !weatherInfo.available) {
-    return <p className="weather-pending">Forecast will appear closer to your trip</p>;
+    return (
+      <p className="weather-pending">
+        {weatherInfo?.message || "Forecast will appear closer to your trip"}
+      </p>
+    );
   }
 
   return (
     <div className="weather-card">
-      <p className="weather-temp">{weatherInfo.temperature}°C</p>
+      <p className="weather-temp">{Math.round(weatherInfo.temperature)}°C</p>
       <p className="weather-condition">{weatherInfo.condition}</p>
     </div>
   );

@@ -50,9 +50,17 @@ a {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
 }
 
 form {
@@ -117,6 +125,7 @@ button[type="submit"]:hover {
   font-weight: 600;
   color: var(--color-ink);
 }
+
 .price-tag-label {
   font-size: 12px;
   font-weight: 400;

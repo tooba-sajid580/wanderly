@@ -14,7 +14,10 @@ function TripCard({ trip }) {
       </div>
       <div className="card-body">
         <h3>{trip.title}</h3>
-        <p className="card-meta">{days} days · {trip.capacity} travelers</p>
+        <p className="card-meta">
+          {trip.destination && `${trip.destination} · `}{days} days · {trip.capacity} travelers
+          {trip.status === "full" && " · Full (waitlist open)"}
+        </p>
         <PriceTag price={trip.pricePerPerson} />
         <Link to={`/trips/${trip._id}`} className="card-btn">View trip</Link>
       </div>

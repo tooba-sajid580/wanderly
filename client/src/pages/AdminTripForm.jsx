@@ -17,11 +17,8 @@ function AdminTripForm() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [capacity, setCapacity] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
   const [pricePerPerson, setPricePerPerson] = useState("");
   const [imagesInput, setImagesInput] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
   const [itinerary, setItinerary] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(isEditMode);
@@ -31,8 +28,8 @@ function AdminTripForm() {
     async function fetchTrip() {
       try {
         const response = await axios.get(`http://localhost:5000/api/trips/${tripId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+          headers: { Authorization: `Bearer ${token}` }
+        });
         const trip = response.data;
         setTitle(trip.title || "");
         setDestination(trip.destination || "");
@@ -41,11 +38,8 @@ function AdminTripForm() {
         setDescription(trip.description || "");
         setCategory(trip.category || "");
         setCapacity(trip.capacity || "");
-        setTotalPrice(trip.totalPrice || "");
         setPricePerPerson(trip.pricePerPerson || "");
         setImagesInput((trip.images || []).join(", "));
-        setLat(trip.lat || "");
-        setLng(trip.lng || "");
         setItinerary(trip.itinerary || []);
       } catch (err) {
         setError("Could not load trip for editing");
@@ -54,7 +48,7 @@ function AdminTripForm() {
       }
     }
     fetchTrip();
-  }, [tripId, isEditMode]);
+  }, [tripId, isEditMode, token]);
 
   function addDay() {
     setItinerary([...itinerary, { day: itinerary.length + 1, place: "", activities: "" }]);
@@ -68,11 +62,24 @@ function AdminTripForm() {
     setItinerary(itinerary.filter((_, i) => i !== index));
   }
 
+  const totalPrice = Number(pricePerPerson) * Number(capacity) || "";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     const images = imagesInput.split(",").map((url) => url.trim()).filter((url) => url !== "");
-    const tripData = { title, destination, startDate, endDate, description, category, capacity, totalPrice, pricePerPerson, images, lat, lng, itinerary };
+    const tripData = {
+      title,
+      destination,
+      startDate,
+      endDate,
+      description,
+      category,
+      capacity: Number(capacity),
+      pricePerPerson: Number(pricePerPerson),
+      images,
+      itinerary: itinerary.map((d) => ({ ...d, day: Number(d.day) }))
+    };
 
     try {
       if (isEditMode) {
@@ -86,7 +93,7 @@ function AdminTripForm() {
       }
       navigate("/admin");
     } catch (err) {
-      setError(err.response?.data?.message || "Could not save trip");
+      setError(err.response?.data?.error || err.response?.data?.message || "Could not save trip");
     }
   };
 
@@ -106,8 +113,8 @@ function AdminTripForm() {
             <input placeholder="e.g. Hunza Valley Adventure" value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div>
-            <label>Destination</label>
-            <input value={destination} onChange={(e) => setDestination(e.target.value)} />
+            <label>Destination (city, used for weather)</label>
+            <input placeholder="e.g. Skardu" value={destination} onChange={(e) => setDestination(e.target.value)} />
           </div>
 
           <div>
@@ -133,17 +140,8 @@ function AdminTripForm() {
             <input type="number" value={pricePerPerson} onChange={(e) => setPricePerPerson(e.target.value)} />
           </div>
           <div>
-            <label>Total price</label>
-            <input type="number" value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} />
-          </div>
-
-          <div>
-            <label>Latitude</label>
-            <input value={lat} onChange={(e) => setLat(e.target.value)} placeholder="36.3167" />
-          </div>
-          <div>
-            <label>Longitude</label>
-            <input value={lng} onChange={(e) => setLng(e.target.value)} placeholder="74.6500" />
+            <label>Total price (calculated)</label>
+            <input type="number" value={totalPrice} readOnly />
           </div>
 
           <div>

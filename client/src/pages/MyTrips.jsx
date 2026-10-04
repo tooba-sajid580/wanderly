@@ -11,12 +11,18 @@ function MyTrips() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (!token) {
+      setError("Please log in to see your trips");
+      setLoading(false);
+      return;
+    }
+
     async function fetchMyTrips() {
       try {
         const response = await axios.get("http://localhost:5000/api/trips/my-trips", {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setTrips(response.data.trips);
+        setTrips(response.data.trips || []);
       } catch (err) {
         setError("Could not load your trips");
       } finally {
@@ -24,24 +30,27 @@ function MyTrips() {
       }
     }
     fetchMyTrips();
-  }, []);
+  }, [token]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
-  const tripsWithWeather = trips.filter((e) => e.trip.weatherCache?.available);
+  const joinedTrips = trips.filter((entry) => entry.trip);
+  const tripsWithWeather = joinedTrips.filter(
+    (entry) => typeof entry.trip.weatherCache?.temperature === "number"
+  );
 
   return (
     <div className="container">
       <h2 className="page-heading">My trips</h2>
       <p className="page-subtext">Keep track of trips you've joined.</p>
 
-      {trips.length === 0 ? (
+      {joinedTrips.length === 0 ? (
         <p>You haven't joined any trips yet.</p>
       ) : (
         <>
           <div className="grid">
-            {trips.map((entry) => (
+            {joinedTrips.map((entry) => (
               <div key={entry.trip._id} className="mytrip-card-wrapper">
                 <TripCard trip={entry.trip} />
                 <span className={`status-pill status-${entry.membershipStatus}`}>
@@ -59,8 +68,13 @@ function MyTrips() {
                 {tripsWithWeather.map((entry) => (
                   <div key={entry.trip._id} className="weather-summary-item">
                     <p className="weather-place">{entry.trip.destination}</p>
-                    <p className="temp">{entry.trip.weatherCache.temperature}°C</p>
+                    <p className="temp">{Math.round(entry.trip.weatherCache.temperature)}°C</p>
                     <p className="condition">{entry.trip.weatherCache.condition}</p>
+                    {entry.trip.packingList?.length > 0 && (
+                      <p className="condition">
+                        Pack: {entry.trip.packingList.slice(0, 3).join(", ")}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
