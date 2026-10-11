@@ -5,7 +5,7 @@ const TripRequestSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     destinationRequest: { type: String, required: true },
-    preferredDate: { type: Date },
+    preferredDate: { type:String },
     notes: { type: String },
     status: {
       type: String,

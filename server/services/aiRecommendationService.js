@@ -1,4 +1,3 @@
-// Rule-based packing list built from the forecast. No API needed.
 function buildPackingList(weather, category) {
   if (!weather || !weather.available) return [];
 

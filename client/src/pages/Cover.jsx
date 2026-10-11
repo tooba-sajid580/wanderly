@@ -1,24 +1,31 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import Footer from "../components/Footer";
 import "../styles/Cover.css";
 
-function Cover() {
-  const [popularTrips, setPopularTrips] = useState([]);
-  const heroImages = [
+const heroImages = [
   "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200",
   "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200",
   "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1200",
 ];
 const FIVE_HOURS_MS = 5 * 60 * 60 * 1000;
-const slot = Math.floor(Date.now() / FIVE_HOURS_MS);
-const currentHeroImage = heroImages[slot % heroImages.length];
+
+function Cover() {
+  const { user } = useAuth();
+  const [popularTrips, setPopularTrips] = useState([]);
+
+  const slot = Math.floor(Date.now() / FIVE_HOURS_MS);
+  const currentHeroImage = heroImages[slot % heroImages.length];
 
   useEffect(() => {
     async function fetchPopular() {
       try {
-        const response = await axios.get("http://localhost:5000/api/trips");
-        const sorted = [...response.data.trips].sort((a, b) => b.joinedCount - a.joinedCount);
+        const response = await axios.get("/api/trips");
+        const sorted = [...response.data.trips].sort(
+          (a, b) => (b.joinedCount || 0) - (a.joinedCount || 0)
+        );
         setPopularTrips(sorted.slice(0, 3));
       } catch (err) {
         console.log("Could not load popular trips");
@@ -36,11 +43,13 @@ const currentHeroImage = heroImages[slot % heroImages.length];
           <p>Discover trips, meet fellow travelers, and make memories that last beyond the journey.</p>
           <div className="hero-buttons">
             <Link to="/trips" className="btn-primary">Browse trips</Link>
-            <Link to="/admin/create-trip" className="btn-secondary">Create a trip</Link>
+            {user?.role === "admin" && (
+              <Link to="/admin/create-trip" className="btn-secondary">Create a trip</Link>
+            )}
           </div>
         </div>
         <div className="hero-image">
-         <img src={currentHeroImage} alt="Travelers on a trip" />
+          <img src={currentHeroImage} alt="Travelers on a trip" />
         </div>
       </section>
 
@@ -68,6 +77,8 @@ const currentHeroImage = heroImages[slot % heroImages.length];
           })}
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

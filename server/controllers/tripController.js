@@ -160,7 +160,20 @@ async function getAllTrips(req, res) {
   try {
     const trips = await Trip.find({ status: { $in: ["open", "full"] } })
       .select("-totalPrice -weatherCache -recommendationCache");
-    res.status(200).json({ trips });
+
+    // Count confirmed members per trip, so Home can show the most popular ones
+    const counts = await TripMember.aggregate([
+      { $match: { status: "confirmed" } },
+      { $group: { _id: "$tripId", count: { $sum: 1 } } }
+    ]);
+    const countByTrip = new Map(counts.map((c) => [String(c._id), c.count]));
+
+    const tripsWithCounts = trips.map((trip) => ({
+      ...trip.toObject(),
+      joinedCount: countByTrip.get(String(trip._id)) || 0
+    }));
+
+    res.status(200).json({ trips: tripsWithCounts });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong", error: error.message });
   }
