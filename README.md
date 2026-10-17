@@ -1,10 +1,10 @@
-Wanderly
+#Wanderly
 
 Wanderly is a full-stack platform for organizing and joining group trips. Organizers post trips and manage who joins. Travelers browse trips, join them, or join a waitlist when a trip is full. This is version one.
 
 The idea came from an Instagram reel of a woman organizing group trips that strangers could join. Everything ran through comments and DMs, with no structure, no clear capacity, no record of who was coming, and no security for organizers or travelers. Wanderly gives that kind of travel a proper foundation.
 
-Screenshots
+##Screenshots
 - Home page
   <img width="1346" height="595" alt="image" src="https://github.com/user-attachments/assets/90906fcf-38a0-4ee8-99c3-021c691760c1" />
 - Browse trips
@@ -16,7 +16,7 @@ Screenshots
 - Trip requests
   <img width="1340" height="593" alt="image" src="https://github.com/user-attachments/assets/9aa0e7ae-2eb7-4562-b94a-06e68f98bbd6" />
 
-Features
+##Features
 
 For travelers
 - Browse open trips and search by destination or title
@@ -36,13 +36,13 @@ Security and rules
 - Only the organizer can see travelers' emails and the total price
 - A unique database index stops a user joining the same trip twice
 
-Tech stack
+##Tech stack
 
-Frontend:React, Vite, React Router, Axios
-Backend:Node.js, Express, MongoDB with Mongoose, JSON Web Tokens, bcrypt
-External APIs:OpenWeatherMap (forecasts) and the Google Gemini API (travel tips)
+Frontend: React, Vite, React Router, Axios
+Backend: Node.js, Express, MongoDB with Mongoose, JSON Web Tokens, bcrypt
+External APIs: OpenWeatherMap (forecasts) and the Google Gemini API (travel tips)
 
-Project structure
+##Project structure
 
 ```
 wanderly/
@@ -61,7 +61,7 @@ wanderly/
     services/        Weather and recommendation services
 ```
 
-Getting started
+##Getting started
 
 Requirements
 - Node.js 18 or newer
@@ -125,9 +125,7 @@ The app runs on `http://localhost:5173`. By default it talks to `http://localhos
 VITE_API_URL=https://your-api-address
 ```
 
-### Never commit your `.env` files
-Both `.env` files must be listed in `.gitignore`. They contain secrets.
-API overview
+##API overview
 
 | Method | Route | Access | Purpose |
 |---|---|---|---|
@@ -150,15 +148,15 @@ API overview
 | GET | `/api/requests` | Organizer | All requests |
 | PUT | `/api/requests/:requestId` | Organizer (first to respond) | Approve or reject |
 
-Design decisions
+##Design decisions
 
-- First organizer to respond owns a trip request.The claim is a single atomic database update, so two organizers clicking at the same moment cannot both win.
+- First organizer to respond owns a trip request. The claim is a single atomic database update, so two organizers clicking at the same moment cannot both win.
 - Total price is calculated on the server (price per person times capacity), so it cannot be tampered with from the client.
-- Weather is cached.A good forecast is reused for 6 hours, and a failed lookup is retried after 30 minutes.
-- The packing list is rule-based.** It is built from temperature, conditions and trip type, so it works even when the AI service is unavailable.
-- The AI model name is configurable** through `AI_MODEL`, because providers retire models without warning.
+- Weather is cached. A good forecast is reused for 6 hours, and a failed lookup is retried after 30 minutes.
+- The packing list is rule-based.It is built from temperature, conditions and trip type, so it works even when the AI service is unavailable.
+- The AI model name is configurable through `AI_MODEL`, because providers retire models without warning.
 
-Known limitations (version one)
+##Known limitations (version one)
 
 - No payments, so a spot is not secured by anything yet
 - Anyone can register as an organizer, and organizers are not verified
@@ -166,10 +164,13 @@ Known limitations (version one)
 - No notifications when a waitlist spot opens or a request is answered
 - Weather forecasts only appear within five days of a trip
 
-Possible next steps
+##Possible next steps
 
 Online payments, organizer verification, reviews and ratings, and notifications. These are ideas rather than commitments.
 
-Author
+##Demo Video
+Watch the full project walkthrough on [LinkedIn](https://lnkd.in/p/dMEHhMf6).
+
+##Author
 
 Built by Tooba Sajid. Feedback is welcome, especially from people who organize or join group trips, and from developers on the architecture.
