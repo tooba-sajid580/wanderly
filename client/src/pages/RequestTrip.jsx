@@ -15,7 +15,7 @@ function RequestTrip() {
     setMessage("");
     try {
       await axios.post(
-        "http://localhost:5000/api/requests",
+        "/api/requests",
         { destinationRequest, preferredDate, notes },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -19,7 +19,7 @@ function MyTrips() {
 
     async function fetchMyTrips() {
       try {
-        const response = await axios.get("http://localhost:5000/api/trips/my-trips", {
+        const response = await axios.get("/api/trips/my-trips", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTrips(response.data.trips || []);

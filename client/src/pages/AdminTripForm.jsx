@@ -27,7 +27,7 @@ function AdminTripForm() {
     if (!isEditMode) return;
     async function fetchTrip() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/trips/${tripId}`, {
+        const response = await axios.get(`/api/trips/${tripId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const trip = response.data;
@@ -83,11 +83,11 @@ function AdminTripForm() {
 
     try {
       if (isEditMode) {
-        await axios.put(`http://localhost:5000/api/admin/trips/${tripId}`, tripData, {
+        await axios.put(`/api/admin/trips/${tripId}`, tripData, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await axios.post("http://localhost:5000/api/admin/trips", tripData, {
+        await axios.post("/api/admin/trips", tripData, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }

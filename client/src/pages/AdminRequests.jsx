@@ -29,7 +29,7 @@ function AdminRequests() {
 
     async function fetchRequests() {
       try {
-        const response = await axios.get("http://localhost:5000/api/requests", {
+        const response = await axios.get("/api/requests", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setRequests(response.data.requests || []);
@@ -47,7 +47,7 @@ function AdminRequests() {
     setBusyId(requestId);
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/requests/${requestId}`,
+        `/api/requests/${requestId}`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -57,7 +57,7 @@ function AdminRequests() {
       setActionError(err.response?.data?.message || "Could not respond to request");
       // Reload so the list shows who claimed it
       try {
-        const refreshed = await axios.get("http://localhost:5000/api/requests", {
+        const refreshed = await axios.get("/api/requests", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setRequests(refreshed.data.requests || []);

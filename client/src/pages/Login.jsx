@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
     setErr("");
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", { email, password: pwd });
+      const response = await axios.post("/api/auth/login", { email, password: pwd });
       auth.login({ user: response.data.user, token: response.data.token });
       navigate("/");
     } catch (error) {

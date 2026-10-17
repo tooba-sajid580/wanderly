@@ -20,7 +20,7 @@ function TripDetail() {
   const fetchTripDetails = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/trips/${tripId}`,
+        `/api/trips/${tripId}`,
         token ? { headers: { Authorization: `Bearer ${token}` } } : {}
       );
       setTrip(response.data);
@@ -42,7 +42,7 @@ function TripDetail() {
     }
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/trips/${tripId}/join`,
+        `/api/trips/${tripId}/join`,
         {},
         authConfig
       );
@@ -56,7 +56,7 @@ function TripDetail() {
   async function handleLeave() {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/trips/${tripId}/leave`,
+        `/api/trips/${tripId}/leave`,
         authConfig
       );
       setMessage(response.data.message);

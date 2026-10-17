@@ -12,7 +12,7 @@ function BrowseTrips() {
   useEffect(() => {
     async function fetchTrips() {
       try {
-        const response = await axios.get("http://localhost:5000/api/trips");
+        const response = await axios.get("/api/trips");
         setTrips(response.data.trips);
       } catch (err) {
         setError("Could not load trips");

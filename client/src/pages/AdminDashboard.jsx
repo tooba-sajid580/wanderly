@@ -13,7 +13,7 @@ function AdminDashboard() {
   useEffect(() => {
     async function fetchMyPostedTrips() {
       try {
-        const response = await axios.get("http://localhost:5000/api/admin/trips/my-posted", {
+        const response = await axios.get("/api/admin/trips/my-posted", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTrips(response.data.trips);
@@ -31,7 +31,7 @@ function AdminDashboard() {
     if (!confirmed) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/trips/${tripId}/permanent`, {
+      await axios.delete(`/api/admin/trips/${tripId}/permanent`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTrips(trips.filter((trip) => trip._id !== tripId));

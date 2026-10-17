@@ -15,7 +15,7 @@ function AdminTripMembers() {
     async function fetchMembers() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/admin/trips/${tripId}/members`,
+          `/api/admin/trips/${tripId}/members`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setData(response.data);
