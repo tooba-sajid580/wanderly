@@ -5,14 +5,16 @@ Wanderly is a full-stack platform for organizing and joining group trips. Organi
 The idea came from an Instagram reel of a woman organizing group trips that strangers could join. Everything ran through comments and DMs, with no structure, no clear capacity, no record of who was coming, and no security for organizers or travelers. Wanderly gives that kind of travel a proper foundation.
 
 Screenshots
-
-Add screenshots here after uploading them to the repository (for example in a `screenshots` folder):
-
 - Home page
+  <img width="1346" height="595" alt="image" src="https://github.com/user-attachments/assets/90906fcf-38a0-4ee8-99c3-021c691760c1" />
 - Browse trips
+  <img width="1340" height="615" alt="image" src="https://github.com/user-attachments/assets/85e5b7be-e5b9-4216-b647-7c9a032bd56a" />
 - Trip detail with weather and packing list
+  <img width="1329" height="593" alt="image" src="https://github.com/user-attachments/assets/84d897e4-3294-42a0-8e71-4d78dc818d08" />
 - Organizer dashboard
+  <img width="1351" height="621" alt="image" src="https://github.com/user-attachments/assets/229655c0-e126-437e-963f-a052fede71f2" />
 - Trip requests
+  <img width="1340" height="593" alt="image" src="https://github.com/user-attachments/assets/9aa0e7ae-2eb7-4562-b94a-06e68f98bbd6" />
 
 Features
 
