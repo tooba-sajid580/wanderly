@@ -171,6 +171,12 @@ Online payments, organizer verification, reviews and ratings, and notifications.
 ##Demo Video
 Watch the full project walkthrough on [LinkedIn](https://lnkd.in/p/dMEHhMf6).
 
+##License
+
+Copyright (c) 2026 Tooba Sajid. All rights reserved.
+
+This repository and its source code are provided for demonstration and code review purposes only. No permission is granted to copy, modify, or redistribute this software, in whole or in part, without written permission from the author.
+
 ##Author
 
 Built by Tooba Sajid. Feedback is welcome, especially from people who organize or join group trips, and from developers on the architecture.
